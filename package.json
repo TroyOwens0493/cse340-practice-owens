@@ -1,17 +1,15 @@
 {
     "name": "cse340-practice-owens",
     "dependencies": {
+        "ejs": "^3.1.10",
         "express": "^5.2.1"
     },
     "type": "module",
     "scripts": {
+        "dev": "nodemon --env-file=.env server.js",
         "start": "node server.js"
     },
     "devDependencies": {
         "nodemon": "^3.1.11"
-    },
-    "scripts": {
-        "dev": "nodemon --env-file=.env server.js",
-        "start": "node server.js"
     }
 }
