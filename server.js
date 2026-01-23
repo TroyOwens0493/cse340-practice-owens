@@ -74,6 +74,75 @@ app.set('views', path.join(__dirname, 'src/views'));
 // Serve static, public routes
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Log all requests to the console
+app.use((req, res, next) => {
+    // Skip logging for routes that start with /. (like /.well-known/)
+    if (!req.path.startsWith('/.')) {
+        console.log(`${req.method} ${req.url}`);
+    }
+    next(); // Pass control to the next middleware or route
+});
+
+// Middleware to add global data to all templates
+app.use((req, res, next) => {
+    // Add current year for copyright
+    res.locals.currentYear = new Date().getFullYear();
+
+    next();
+});
+
+// Global middleware for time-based greeting
+app.use((req, res, next) => {
+    const currentHour = new Date().getHours();
+
+    /**
+     * Create logic to set different greetings based on the current hour.
+     * Use res.locals.greeting to store the greeting message.
+     * Hint: morning (before 12), afternoon (12-17), evening (after 17)
+     */
+    let greeting;
+    if (currentHour < 12) {
+        greeting = "Good morning!";
+    } else if (currentHour < 17) {
+        greeting = "Good afternoon!";
+    } else {
+        greeting = "Good evening!";
+    }
+    res.locals.greeting = greeting;
+
+    next();
+});
+
+// Global middleware for random theme selection because why not
+app.use((req, res, next) => {
+    const themes = ['blue-theme', 'green-theme', 'red-theme'];
+
+    // Your task: Pick a random theme from the array
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+    res.locals.bodyClass = randomTheme;
+
+    next();
+});
+
+// Global middleware to share query parameters with all templates
+app.use((req, res, next) => {
+    res.locals.queryParams = req.query || {};
+    next();
+});
+
+// Route-specific middleware that sets custom headers
+const addDemoHeaders = (req, res, next) => {
+    // Your task: Set custom headers using res.setHeader()
+    // Add a header called 'X-Demo-Page' with value 'true'
+    // Add a header called 'X-Middleware-Demo' with any message you want
+    const demo = "This is a demo page";
+    const middleware = "This is a middleware demo";
+    res.setHeader('X-Demo-Page', demo);
+    res.setHeader('X-Middleware-Demo', middleware);
+
+    next();
+};
+
 // Declare routes
 app.get('/', (req, res) => {
     const title = 'Welcome Home';
@@ -94,6 +163,12 @@ app.get('/catalog', (req, res) => {
     res.render('catalog', {
         title: 'Course Catalog',
         courses: courses
+    });
+});
+
+app.get('/demo', addDemoHeaders, (req, res) => {
+    res.render('demo', {
+        title: 'Middleware Demo Page'
     });
 });
 
@@ -166,7 +241,8 @@ app.use((err, req, res, next) => {
     const context = {
         title: status === 404 ? 'Page Not Found' : 'Server Error',
         error: NODE_ENV === 'production' ? 'An error occurred' : err.message,
-        stack: NODE_ENV === 'production' ? null : err.stack
+        stack: NODE_ENV === 'production' ? null : err.stack,
+        NODE_ENV
     };
 
     // Render the appropriate error template with fallback
