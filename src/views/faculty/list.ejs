@@ -8,7 +8,7 @@
     <% Object.values(faculty).forEach(faculty => { %>
         <div class="faculty-card">
             <h3 class="faculty-name"><a href="/faculty/<%= faculty.name.toLowerCase().replace(" ", "-") %>"><%= faculty.name %></a></h3>
-            <!-- Yes this is a hacky way to get the slug but it is really easy lol -->
+            <% //Yes this is a hacky way to get the slug but it is really easy lol %>
             <p class="faculty-department"><%= faculty.department %></p>
         </div>
     <% }); %>
