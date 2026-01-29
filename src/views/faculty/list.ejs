@@ -1,15 +1,17 @@
 <%- include('../partials/header') %>
+<link rel="stylesheet" href="/css/faculty.css">
 <main>
     <h1>Faculty List</h1>
     <p>Here you can see a list of all our faculty members.</p>
 
-    <div class="faculty-list">
-        <% Object.values(faculty).forEach(faculty => { %>
-            <div class="faculty-card">
-                <p class="faculty-name"><%= faculty.name %></p>
-                <p class="faculty-department"><%= faculty.department %></p>
-            </div>
-        <% }); %>
-    </div>
+<div class="faculty-list">
+    <% Object.values(faculty).forEach(faculty => { %>
+        <div class="faculty-card">
+            <h3 class="faculty-name"><a href="/faculty/<%= faculty.name.toLowerCase().replace(" ", "-") %>"><%= faculty.name %></a></h3>
+            <!-- Yes this is a hacky way to get the slug but it is really easy lol -->
+            <p class="faculty-department"><%= faculty.department %></p>
+        </div>
+    <% }); %>
+</div>
 </main>
 <%- include('../partials/footer') %>

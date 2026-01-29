@@ -1,0 +1,40 @@
+/* Faculty list styles using native CSS nesting */
+.faculty-list {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+
+    .faculty-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1.5rem;
+        background: #fff;
+        transition: box-shadow 0.2s ease;
+
+        &:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .faculty-name {
+            margin: 0 0 0.5rem 0;
+
+            a {
+                color: #2c5aa0;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 1.2rem;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .faculty-department {
+            color: #666;
+            font-weight: 500;
+            margin: 0;
+        }
+    }
+}
