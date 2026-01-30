@@ -2,8 +2,11 @@
 <main>
     <div class="faculty-header">
         <h1><%= faculty.name %></h1>
-        <p class="faculty-offic"><%= faculty.office %></p>
+        <p class="faculty-title"><%= faculty.title %></p>
         <p class="faculty-department"><%= faculty.department %></p>
+        <p class="faculty-office">Office: <%= faculty.office %></p>
+        <p class="faculty-phone">Phone: <%= faculty.phone %></p>
+        <p class="faculty-email">Email: <a href="mailto:<%= faculty.email %>"><%= faculty.email %></a></p>
     </div>
 
     <div class="sections">
