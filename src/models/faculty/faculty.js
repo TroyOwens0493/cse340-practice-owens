@@ -83,7 +83,7 @@ export const getFacultyById = (id) => {
     } else {
         res = null;
     }
-    const withId = { ...res, facultyId: id };
+    const withId = { ...res, id };
 
     return withId;
 };
@@ -91,7 +91,7 @@ export const getFacultyById = (id) => {
 export const getSortedFaculty = (sortBy) => {
     // TODO: Validate sortBy parameter (name, department, or title), default to 'department' if invalid
 
-    // Create an array of all faculty members
+    // Create an array of all faculty members with the keys included
     const facultyArray = [];
     for (const key in faculty) {
         // Add each individual faculty object to the array
