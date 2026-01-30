@@ -74,17 +74,18 @@ const faculty = {
     }
 };
 
-export const getFacultyById = (facultyId) => {
+export const getFacultyById = (id) => {
     // TODO: Look up faculty member by ID, return null if not found
     let res;
-    const facultyInfo = faculty[facultyId];
+    const facultyInfo = faculty[id];
     if (facultyInfo) {
         res = facultyInfo;
     } else {
         res = null;
     }
+    const withId = { ...res, facultyId: id };
 
-    return res;
+    return withId;
 };
 
 export const getSortedFaculty = (sortBy) => {
@@ -94,7 +95,7 @@ export const getSortedFaculty = (sortBy) => {
     const facultyArray = [];
     for (const key in faculty) {
         // Add each individual faculty object to the array
-        facultyArray.push(faculty[key]);
+        facultyArray.push({ ...faculty[key], id: key });
     }
 
     // Sort the array by the chosen property
