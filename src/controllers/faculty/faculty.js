@@ -3,7 +3,6 @@ import { getFacultyById, getSortedFaculty } from "../../models/faculty/faculty.j
 export const facultyListPage = (req, res) => {
 
     const faculty = getSortedFaculty();
-    console.log('faculty', faculty);
 
     res.render('faculty/list', { title: 'Faculty', faculty });
 };
