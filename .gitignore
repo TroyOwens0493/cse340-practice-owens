@@ -1,2 +1,4 @@
 .env
 node_modules/
+byuicse-psql-cert.pem
+.DS_store
