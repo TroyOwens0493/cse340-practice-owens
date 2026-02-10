@@ -11,6 +11,16 @@ const __dirname = dirname(__filename);
  * Checks if faculty table has data - if not, runs a full re-seed.
  */
 const setupDatabase = async () => {
+    const runPracticeSQL = async () => {
+        // Run practice.sql if it exists (for student assignments)
+        const practicePath = join(__dirname, 'sql', 'practice.sql');
+        if (fs.existsSync(practicePath)) {
+            const practiceSQL = fs.readFileSync(practicePath, 'utf8');
+            await db.query(practiceSQL);
+            console.log('Practice database tables initialized');
+        }
+    };
+
     /**
      * Check if faculty table has any rows and wrap in try-catch to handle cases
      * where table doesn't exist yet.
@@ -28,19 +38,21 @@ const setupDatabase = async () => {
          */
         hasData = false;
     }
-    
-    if (hasData) {
+
+    if (!hasData) {
+        // No faculty found - run full seed
+        console.log('Seeding database...');
+        const seedPath = join(__dirname, 'sql', 'seed.sql');
+        const seedSQL = fs.readFileSync(seedPath, 'utf8');
+        await db.query(seedSQL);
+        console.log('Database seeded successfully');
+    } else {
         console.log('Database already seeded');
-        return true;
     }
-    
-    // No faculty found - run full seed
-    console.log('Seeding database...');
-    const seedPath = join(__dirname, 'sql', 'seed.sql');
-    const seedSQL = fs.readFileSync(seedPath, 'utf8');
-    await db.query(seedSQL);
-    console.log('Database seeded successfully');
-    
+
+    // Always run practice.sql so assignment tables exist even on a pre-seeded DB.
+    await runPracticeSQL();
+
     return true;
 };
 

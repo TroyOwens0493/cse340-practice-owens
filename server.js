@@ -32,6 +32,10 @@ app.set('views', path.join(__dirname, 'src/views'));
  */
 app.use(addLocalVariables);
 
+// Allow Express to receive and process POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 /**
  * Routes
  */
@@ -103,12 +107,9 @@ if (NODE_ENV.includes('dev')) {
 /**
  * Start Server
  */
-app.listen(PORT, () => {
-    console.log(`Server is running on http://127.0.0.1:${PORT}`);
-});
+await setupDatabase();
+await testConnection();
 
-app.listen(PORT, async () => {
-    await setupDatabase();
-    await testConnection();
+app.listen(PORT, () => {
     console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });

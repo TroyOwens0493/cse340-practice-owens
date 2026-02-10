@@ -4,6 +4,7 @@ import { addDemoHeaders } from '../middleware/demo/headers.js';
 // Dynamic page imports
 import { catalogPage, courseDetailPage } from './catalog/catalog.js';
 import { facultyListPage, facultyDetailPage } from './faculty/faculty.js';
+import contactRoutes from './forms/contact.js';
 // Static page imports
 import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
 
@@ -22,6 +23,12 @@ router.use('/faculty', (req, res, next) => {
     next();
 });
 
+// Add contact-specific styles to all contact routes
+router.use('/contact', (req, res, next) => {
+    res.addStyle('<link rel="stylesheet" href="/css/contact.css">');
+    next();
+});
+
 // Home and basic pages
 router.get('/', homePage);
 router.get('/about', aboutPage);
@@ -33,6 +40,9 @@ router.get('/catalog/:slugId', courseDetailPage);
 // Faculty routes
 router.get('/faculty', facultyListPage);
 router.get('/faculty/:facultySlug', facultyDetailPage);
+
+// Contact form routes
+router.use('/contact', contactRoutes);
 
 // Demo page with special middleware
 router.get('/demo', addDemoHeaders, demoPage);
