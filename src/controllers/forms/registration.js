@@ -52,8 +52,10 @@ const processRegistration = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        // Redirect back to /register
-        console.log("Registration errs:", errors);
+        // Store each validation error as a separate flash message
+        errors.array().forEach(error => {
+            req.flash('error', error.msg);
+        });
         return res.redirect("/register");
     }
 
@@ -66,7 +68,7 @@ const processRegistration = async (req, res) => {
 
         if (isExistingEmail) {
             // Redirect back to /register
-            console.log('Email already registered');
+            req.flash('error', 'Email already registered');
             return res.redirect("/register");
         }
 
@@ -82,6 +84,7 @@ const processRegistration = async (req, res) => {
 
     } catch (error) {
         console.log(error);
+        req.flash('error', 'Unable to register you at this time. Please try again later');
         // Redirect back to /register
         return res.redirect('/register');
     }
