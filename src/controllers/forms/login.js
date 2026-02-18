@@ -50,14 +50,14 @@ const processLogin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = findUserByEmail(email);
+        const user = await findUserByEmail(email);
         if (!user) {
             req.flash('error', 'User not found');
             return res.redirect('/login');
         }
 
-        const res = verifyPassword(password, user.password);
-        if (!res) {
+        const isValidPassword = await verifyPassword(password, user.password);
+        if (!isValidPassword) {
             req.flash('error', 'Invalid password');
             return res.redirect('/login');
         }
