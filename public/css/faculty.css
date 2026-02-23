@@ -53,19 +53,28 @@
         padding: 1.5rem;
         background: #fff;
         transition: box-shadow 0.2s ease;
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 1.25rem;
+        align-items: center;
 
         &:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .faculty-photo {
-            width: 100%;
+            width: 120px;
             aspect-ratio: 1 / 1;
             object-fit: cover;
             display: block;
-            margin-bottom: 7px;
+            margin: 0;
             background: url('https://placehold.co/480') center / cover no-repeat;
             border-radius: 6px;
+        }
+
+        .faculty-meta {
+            display: grid;
+            gap: 0.25rem;
         }
 
         .faculty-name {
@@ -101,7 +110,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     display: grid;
-    grid-template-columns: minmax(180px, 240px) 1fr;
+    grid-template-columns: minmax(160px, 200px) 1fr;
     gap: 2rem;
     align-items: start;
 
@@ -151,6 +160,7 @@
 
 .faculty-photo {
     width: 100%;
+    max-width: 200px;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
@@ -165,8 +175,16 @@
     }
 
     .faculty-photo {
-        max-width: 320px;
+        max-width: 200px;
         margin: 0 auto;
+    }
+
+    .faculty-card {
+        grid-template-columns: 1fr;
+    }
+
+    .faculty-card .faculty-photo {
+        margin: 0 0 0.5rem;
     }
 }
 
